@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+
+  rest-api:
+    image: ${DOCKER_REPOSITORY}:${DOCKER_TAG}
+    ports:
+      - 18000:1443
+      - 18010:8443
+    networks:
+      rest_services_api_network:
+
+networks:
+  rest_services_api_network:
