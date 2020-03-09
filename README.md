@@ -6,26 +6,24 @@
 
 * Compile and execute tests (Unit Tests)
     
-    mvn test
+        mvn test
 
-* Compile and execute tests (Unit Tests & Integration Tests)
+* Compile and execute tests (Unit Tests and Integration Tests)
     
-    mvn verify -Pdev
+        mvn verify
     
-* Run only the integration tests
+* To deploy the application to GCP App Engine
     
-    mvn verify -DskipTests=true -Pdev
+        mvn clean verify appengine:deploy -Pcloud-gcp
+        
+#### Google GCP Project Id
 
-* To build the FAT jar, run all the tests ad build a Docker image in your local Docker registry
+        For this project, i have created a new GCP project with name 'personal-pet-project'
     
-    mvn verify -Pdev
-    
-## E2E for Docker compose
+#### Helpful Links
 
-* To spin up a docker container for the service
-
-    mvn verify -Pdev,e2e
-    
+    https://github.com/GoogleCloudPlatform/getting-started-java/tree/master/appengine-standard-java8/springboot-appengine-standard
+        
 #### Ports
 
     application port => 1443
