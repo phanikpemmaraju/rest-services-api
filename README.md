@@ -6,25 +6,25 @@
 
 * Compile and execute tests (Unit Tests)
     
-    mvn test
+        mvn test
 
 * Compile and execute tests (Unit Tests & Integration Tests)
     
-    mvn verify -Pdev
+        mvn verify -Pdev
     
 * Run only the integration tests
     
-    mvn verify -DskipTests=true -Pdev
+        mvn verify -DskipTests=true -Pdev
 
 * To build the FAT jar, run all the tests ad build a Docker image in your local Docker registry
     
-    mvn verify -Pdev
+        mvn verify -Pdev
     
 ## E2E for Docker compose
 
 * To spin up a docker container for the service
 
-    mvn verify -Pdev,e2e
+        mvn verify -Pdev,e2e
     
 #### Ports
 
