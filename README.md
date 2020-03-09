@@ -43,4 +43,30 @@
 #### API documentation url ( Uses Application Port )
     
     Swagger UI => http://localhost:18000/api-docs
-    As Json    => http://localhost:18000/api-docs.json  
+    As Json    => http://localhost:18000/api-docs.json 
+     
+### Run the docker container locally
+    
+   ##### Pre-requisites:
+          Docker Service installed locally.
+
+   ##### Please follow the below steps to run the docker container locally.
+   
+         docker pull partech/rest-services-api
+    
+         docker run -d -p 1443:1443 -p 8443:8443 partech/rest-services-api
+   
+   ##### API Endpoints locally
+       
+       GET http://localhost:8443/manage/health      ( Uses Actuator Port )
+       GET http://localhost:1443/hello
+       GET http://localhost:1443/hello/{anyString}
+       
+       GET http://localhost:1443/products/{productId} [ Ex: /products/1234 , /products/6789 ]
+       POST http://localhost:1443/products    [ Product Json ]
+       
+   ##### Open Api Specification
+   
+       We can test all the endpoints from the below Url.
+        
+       http://localhost:1443/api-docs  
