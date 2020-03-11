@@ -31,7 +31,7 @@ springdoc:
     path: "/api-docs.json"
 
 rest-service:
-  name: "default-application-name"
+  name: "gcp-application-name"
 
 logging:
   level:
