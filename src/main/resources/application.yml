@@ -30,13 +30,14 @@ springdoc:
   api-docs:
     path: "/api-docs.json"
 
-
 logging:
   level:
     root: INFO
     uk.co.legacy.it.RestServicesApiApplication: INFO
     uk.co.legacy.it.api.resources: INFO
     uk.co.legacy.it.api.services: INFO
+  pattern:
+    console: "[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level [%t] [%logger - %line]: %m%n"
 
 
 

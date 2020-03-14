@@ -32,16 +32,12 @@
         </pluginRepository>
     </pluginRepositories>
 
-
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
         <!-- Plugins -->
-        <dockerfile.repository>${DOCKER_REPOSITORY}</dockerfile.repository>
-        <dockerfile.tag>${DOCKER_TAG}</dockerfile.tag>
         <skipUnitTests>${skipTests}</skipUnitTests>
         <e2e.composeFile>${project.basedir}/src/e2e/docker-compose.yml</e2e.composeFile>
     </properties>
@@ -54,11 +50,23 @@
             </properties>
         </profile>
         <profile>
-            <id>dev</id>
+            <id>cloud-gcp</id>
             <properties>
-                <dockerfile.tag>latest</dockerfile.tag>
-                <dockerfile.repository>legacy-it/rest-services-api</dockerfile.repository>
+                <dockerfile.repository>partech/rest-services-api</dockerfile.repository>
+                <dockerfile.tag>v3</dockerfile.tag>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-gcp-starter</artifactId>
+                    <version>1.2.2.RELEASE</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-gcp-starter-logging</artifactId>
+                    <version>1.2.2.RELEASE</version>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 
@@ -71,6 +79,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>4.11</version>
+        </dependency>
+
 
         <!-- lombok dependency -->
         <dependency>
@@ -95,6 +109,19 @@
         </dependency>
 
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.cloud</groupId>
+                <artifactId>libraries-bom</artifactId>
+                <version>3.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -141,73 +168,6 @@
                         <goals>
                             <goal>integration-test</goal>
                             <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- E2E plugin -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <configuration>
-                    <executable>docker-compose</executable>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>up</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>
-                                <argument>--file</argument>
-                                <argument>${e2e.composeFile}</argument>
-                                <argument>up</argument>
-                                <argument>-d</argument>
-                                <argument>--build</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>down</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>
-                                <argument>--file</argument>
-                                <argument>${e2e.composeFile}</argument>
-                                <argument>down</argument>
-                                <argument>-v</argument>
-                                <argument>--remove-orphans</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>wait-for-services</id>
-                        <phase>integration-test</phase>
-                        <configuration>
-                            <target>
-                                <echo>Waiting for services to come up...</echo>
-                                <waitfor maxwait="2" maxwaitunit="minute" checkevery="250" timeoutproperty="wait-for-services-timeout">
-                                    <and>
-                                        <http url="http://localhost:18010/manage/health"/>
-                                    </and>
-                                </waitfor>
-                                <fail if="wait-for-services-timeout">Services did not start in time</fail>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
                         </goals>
                     </execution>
                 </executions>
