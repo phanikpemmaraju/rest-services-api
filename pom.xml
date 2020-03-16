@@ -6,7 +6,10 @@
     <groupId>uk.co.legacy.it.services</groupId>
     <artifactId>rest-services-api</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <modules>
+        <module>RequestUtil</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <name>Rest Services Api</name>
     <description>ReST Services for legacy IT</description>
